@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부산 투어 — 바다의 도시를 안내하는 법</title>
+</head>
+<body>
+<style>
+:root{
+  --bg:#F3F8FA; --bg2:#E7F0F4; --panel:#FFFFFF; --ink:#12242F; --muted:#54707E; --line:#D3E1E8;
+  --accent:#0C7A93; --accent-ink:#FFFFFF; --glow:#0C7A93;
+  --amber:#C4761F;
+  --rA:#D9532B; --rB:#2E6FB0; --rC:#8A4FA8;
+  --sea1:#BFDCE7; --sea2:#9CC8DA; --sea3:#7BB4CC;
+  --land:#EAF1EC; --seafill:#D8E9F0;
+  --card-shadow:0 2px 14px rgba(18,36,47,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0A1420; --bg2:#0D1A29; --panel:#101E2E; --ink:#E8F0F6; --muted:#8CA3B2; --line:#22364A;
+    --accent:#37C8DE; --accent-ink:#04222B; --glow:#37C8DE;
+    --amber:#F2A65A;
+    --rA:#FF7B54; --rB:#58A6E8; --rC:#C08BE8;
+    --sea1:#0E2133; --sea2:#12293F; --sea3:#17324C;
+    --land:#15242F; --seafill:#0D1F30;
+    --card-shadow:0 2px 18px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1420; --bg2:#0D1A29; --panel:#101E2E; --ink:#E8F0F6; --muted:#8CA3B2; --line:#22364A;
+  --accent:#37C8DE; --accent-ink:#04222B; --glow:#37C8DE;
+  --amber:#F2A65A;
+  --rA:#FF7B54; --rB:#58A6E8; --rC:#C08BE8;
+  --sea1:#0E2133; --sea2:#12293F; --sea3:#17324C;
+  --land:#15242F; --seafill:#0D1F30;
+  --card-shadow:0 2px 18px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --bg:#F3F8FA; --bg2:#E7F0F4; --panel:#FFFFFF; --ink:#12242F; --muted:#54707E; --line:#D3E1E8;
+  --accent:#0C7A93; --accent-ink:#FFFFFF; --glow:#0C7A93;
+  --amber:#C4761F;
+  --rA:#D9532B; --rB:#2E6FB0; --rC:#8A4FA8;
+  --sea1:#BFDCE7; --sea2:#9CC8DA; --sea3:#7BB4CC;
+  --land:#EAF1EC; --seafill:#D8E9F0;
+  --card-shadow:0 2px 14px rgba(18,36,47,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-size:15.5px; line-height:1.7;
+  font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;
+}
+::selection{background:var(--accent); color:var(--accent-ink)}
+a{color:var(--accent)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative; min-height:88vh; display:flex; flex-direction:column; overflow:hidden;
+  background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+#sea{position:absolute; inset:0; width:100%; height:100%; display:block}
+.hero-inner{position:relative; z-index:2; max-width:1080px; width:100%; margin:auto; padding:96px 28px 140px}
+.eyebrow{font-size:12.5px; letter-spacing:.22em; color:var(--accent); font-weight:700}
+.hero h1{font-size:clamp(38px,7vw,72px); line-height:1.12; letter-spacing:-.03em; margin:14px 0 18px;
+  font-weight:800; text-wrap:balance}
+.hero h1 em{font-style:normal; color:var(--accent)}
+.hero p{max-width:52ch; color:var(--muted); font-size:17px; margin:0 0 34px}
+.hero-cta{display:flex; gap:12px; flex-wrap:wrap}
+.btn{display:inline-block; padding:12px 22px; border-radius:999px; font-weight:700; font-size:14.5px;
+  text-decoration:none; border:1.5px solid var(--accent); transition:transform .18s ease, box-shadow .18s ease}
+.btn.primary{background:var(--accent); color:var(--accent-ink)}
+.btn.ghost{color:var(--accent); background:transparent}
+.btn:hover{transform:translateY(-2px); box-shadow:0 6px 20px color-mix(in srgb, var(--glow) 30%, transparent)}
+.stats{display:flex; gap:28px; flex-wrap:wrap; margin-top:56px}
+.stat b{display:block; font-size:30px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted); font-size:13px}
+
+/* ---------- NAV ---------- */
+nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(12px);
+  background:color-mix(in srgb, var(--bg) 82%, transparent); border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1080px; margin:0 auto; padding:0 28px; display:flex; gap:4px; align-items:center; height:54px; overflow-x:auto}
+.nav-inner .brand{font-weight:800; letter-spacing:-.01em; margin-right:auto; white-space:nowrap}
+.nav-inner a{color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:600; padding:6px 12px;
+  border-radius:999px; white-space:nowrap}
+.nav-inner a:hover{color:var(--ink); background:color-mix(in srgb, var(--accent) 12%, transparent)}
+
+/* ---------- SECTIONS ---------- */
+section{max-width:1080px; margin:0 auto; padding:88px 28px 8px}
+.sec-head{margin-bottom:28px}
+.sec-head .eyebrow{display:block; margin-bottom:6px}
+.sec-head h2{font-size:clamp(26px,4vw,38px); letter-spacing:-.02em; margin:0 0 8px; font-weight:800; text-wrap:balance}
+.sec-head p{color:var(--muted); max-width:60ch; margin:0}
+
+/* reveal */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease}
+.reveal.on{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1; transform:none; transition:none}
+  .btn:hover{transform:none}
+  .spot-card:hover{transform:none}
+}
+
+/* ---------- COURSE TABS ---------- */
+.tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px}
+.tab{border:1.5px solid var(--line); background:var(--panel); color:var(--ink); border-radius:999px;
+  padding:9px 18px; font-size:14px; font-weight:700; cursor:pointer; transition:all .18s ease}
+.tab:hover{border-color:var(--accent)}
+.tab[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.course-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:26px; align-items:start}
+@media (max-width:840px){.course-grid{grid-template-columns:1fr}}
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px; box-shadow:var(--card-shadow)}
+.course-title{display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:19px; font-weight:800}
+.dot{width:12px; height:12px; border-radius:50%; flex:none}
+.course-sub{color:var(--muted); font-size:13.5px; margin:0 0 18px}
+.tl{list-style:none; margin:0; padding:0; position:relative}
+.tl::before{content:""; position:absolute; left:57px; top:8px; bottom:8px; width:2px; background:var(--line)}
+.tl li{display:flex; gap:18px; padding:9px 0; position:relative}
+.tl .t{width:44px; flex:none; text-align:right; font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent); font-size:13.5px; padding-top:2px}
+.tl .m{width:12px; flex:none; display:flex; justify-content:center; padding-top:7px}
+.tl .m i{width:9px; height:9px; border-radius:50%; background:var(--accent); display:block; box-shadow:0 0 0 3px var(--panel)}
+.tl .c b{display:block; font-size:14.5px}
+.tl .c small{color:var(--muted); font-size:12.5px; line-height:1.55; display:block}
+.course-tip{margin-top:16px; border-top:1px dashed var(--line); padding-top:12px; font-size:13px; color:var(--muted)}
+.course-tip b{color:var(--amber)}
+
+/* map */
+.mapbox{position:relative}
+.mapbox svg{width:100%; height:auto; display:block}
+.route{fill:none; stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:1200; stroke-dashoffset:1200; opacity:0; transition:stroke-dashoffset 1.4s ease .1s, opacity .4s ease}
+.route.on{stroke-dashoffset:0; opacity:.95}
+@media (prefers-reduced-motion: reduce){.route{transition:none; stroke-dasharray:none}}
+.spot-pin{cursor:pointer}
+.spot-pin circle{transition:r .15s ease}
+.spot-pin:hover circle{r:8}
+#tooltip{position:absolute; pointer-events:none; background:var(--ink); color:var(--bg); font-size:12.5px;
+  padding:8px 12px; border-radius:8px; max-width:230px; line-height:1.5; opacity:0; transition:opacity .15s ease; z-index:5}
+#tooltip b{display:block}
+#tooltip.on{opacity:1}
+
+/* ---------- SPOT CARDS ---------- */
+.filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px}
+.chipbtn{border:1.5px solid var(--line); background:transparent; color:var(--muted); border-radius:999px;
+  padding:7px 16px; font-size:13.5px; font-weight:700; cursor:pointer; transition:all .15s ease}
+.chipbtn:hover{color:var(--ink); border-color:var(--accent)}
+.chipbtn.on{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px}
+.spot-card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 18px 15px;
+  box-shadow:var(--card-shadow); transition:transform .18s ease, border-color .18s ease; display:flex; flex-direction:column; gap:6px}
+.spot-card:hover{transform:translateY(-4px); border-color:var(--accent)}
+.spot-card .cat{font-size:11px; letter-spacing:.12em; font-weight:800; color:var(--accent)}
+.spot-card .cat.food{color:var(--amber)}
+.spot-card .cat.mich{color:var(--amber)}
+.spot-card .cat.mich::before{content:"★ "}
+.spot-card h3{margin:0; font-size:16px; letter-spacing:-.01em}
+.spot-card .area{color:var(--muted); font-size:12px}
+.spot-card p{margin:2px 0 0; font-size:13px; color:var(--muted); line-height:1.6; flex:1}
+.spot-card .flag{font-size:12px; font-weight:700; color:var(--amber); margin-top:4px}
+.hiddencard{display:none}
+
+/* ---------- SEASONS ---------- */
+.seasons{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:22px}
+@media (max-width:680px){.seasons{grid-template-columns:repeat(2,1fr)}}
+.season-btn{border:1.5px solid var(--line); background:var(--panel); border-radius:12px; padding:16px 10px;
+  cursor:pointer; text-align:center; transition:all .18s ease; color:var(--ink)}
+.season-btn b{display:block; font-size:17px}
+.season-btn span{font-size:12px; color:var(--muted)}
+.season-btn.on{border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent)}
+.season-panel{display:none}
+.season-panel.on{display:block}
+.season-panel .panel{margin-bottom:14px}
+.pill-row{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 2px}
+.pill{background:color-mix(in srgb, var(--accent) 13%, transparent); color:var(--accent);
+  border-radius:999px; padding:4px 13px; font-size:13px; font-weight:700}
+.fest{display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--line); align-items:baseline}
+.fest:last-child{border-bottom:none}
+.fest .d{width:110px; flex:none; font-weight:800; color:var(--amber); font-variant-numeric:tabular-nums; font-size:13.5px}
+.fest .n b{font-size:14.5px}
+.fest .n small{display:block; color:var(--muted); font-size:12.5px}
+
+/* ---------- TIPS ---------- */
+details{background:var(--panel); border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden}
+summary{padding:15px 20px; font-weight:700; cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-size:14.5px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+"; margin-left:auto; color:var(--accent); font-size:19px; font-weight:400; transition:transform .2s ease}
+details[open] summary::after{transform:rotate(45deg)}
+details .body{padding:0 20px 16px; color:var(--muted); font-size:13.5px}
+details .body ul{margin:0; padding-left:18px}
+details .body li{margin:5px 0}
+
+footer{max-width:1080px; margin:80px auto 0; padding:26px 28px 60px; border-top:1px solid var(--line);
+  color:var(--muted); font-size:12.5px}
+</style>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <canvas id="sea" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <span class="eyebrow">BUSAN TOUR GUIDE · 2026</span>
+    <h1>바다의 도시,<br><em>부산</em>을 안내하는 법</h1>
+    <p>피란민의 골목에서 광안대교의 밤까지 — 코스, 동선, 주차, 예약 정보를 담은 인터랙티브 가이드. 지도에서 동선을 켜고, 스팟을 눌러보세요.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#courses">코스 살펴보기</a>
+      <a class="btn ghost" href="#spots">스팟 탐색</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>추천 코스</span></div>
+      <div class="stat"><b>18</b><span>검증 명소</span></div>
+      <div class="stat"><b>60+</b><span>맛집 · 카페</span></div>
+      <div class="stat"><b>4</b><span>계절별 플랜</span></div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <span class="brand">부산 투어</span>
+    <a href="#courses">코스</a>
+    <a href="#spots">스팟</a>
+    <a href="#locals">로컬 리스트</a>
+    <a href="#seasons">시즌</a>
+    <a href="#tips">팁</a>
+  </div>
+</nav>
+
+<!-- ================= COURSES ================= -->
+<section id="courses">
+  <div class="sec-head reveal">
+    <span class="eyebrow">COURSES</span>
+    <h2>다섯 가지 코스, 하나의 지도</h2>
+    <p>동행이 누구냐에 따라 코스를 고르세요. 탭을 누르면 타임라인과 지도의 동선이 함께 바뀝니다.</p>
+  </div>
+  <div class="tabs reveal" role="tablist" aria-label="코스 선택">
+    <button class="tab" role="tab" data-course="A" aria-selected="true">A · 클래식</button>
+    <button class="tab" role="tab" data-course="B" aria-selected="false">B · 드라이브</button>
+    <button class="tab" role="tab" data-course="C" aria-selected="false">C · 트렌디</button>
+    <button class="tab" role="tab" data-course="D" aria-selected="false">1박 2일</button>
+    <button class="tab" role="tab" data-course="E" aria-selected="false">2박 3일</button>
+  </div>
+  <div class="course-grid reveal">
+    <div class="panel" id="course-panel"><!-- JS 렌더 --></div>
+    <div class="panel mapbox">
+      <svg viewBox="0 0 780 570" role="img" aria-label="부산 코스 동선 지도">
+        <defs>
+          <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0,0L10,5L0,10z" fill="context-stroke"/>
+          </marker>
+        </defs>
+        <rect x="0" y="0" width="780" height="570" fill="var(--seafill)"/>
+        <path d="M0,0 L780,0 L780,40 L723,78 Q700,120 682,165 Q670,205 655,230 Q640,248 620,252 Q600,256 585,292 Q560,300 538,286 Q510,282 490,296 Q460,310 436,306 Q420,330 448,408 Q400,420 350,408 Q300,400 248,416 Q228,436 218,462 Q195,470 170,455 Q140,470 128,498 Q90,505 60,522 L0,540 Z"
+          fill="var(--land)" stroke="var(--line)" stroke-width="1.5"/>
+        <path d="M262,442 Q300,432 340,462 Q372,480 368,506 Q340,528 300,516 Q268,502 258,476 Z"
+          fill="var(--land)" stroke="var(--line)" stroke-width="1.5"/>
+        <line x1="248" y1="424" x2="268" y2="448" stroke="var(--muted)" stroke-width="3"/>
+        <polyline id="rA" class="route" points="191,410 238,408 218,455 300,380 429,306" stroke="var(--rA)" marker-end="url(#arw)"/>
+        <polyline id="rB" class="route" points="651,228 677,172 716,86 640,200 533,282 488,292" stroke="var(--rB)" marker-end="url(#arw)"/>
+        <polyline id="rC" class="route" points="274,452 240,412 400,340 550,284 581,290 429,308" stroke="var(--rC)" marker-end="url(#arw)"/>
+        <g id="pins" font-size="12.5" fill="var(--ink)"></g>
+        <text x="26" y="556" fill="var(--muted)" font-size="11">개략도 — 실제 축척과 다릅니다 · 스팟에 마우스를 올려보세요</text>
+      </svg>
+      <div id="tooltip" role="status"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPOTS ================= -->
+<section id="spots">
+  <div class="sec-head reveal">
+    <span class="eyebrow">EXPLORE</span>
+    <h2>스팟 탐색</h2>
+    <p>2026년 7월 웹 조사 기준의 운영·주차 정보입니다. 카테고리로 걸러보세요.</p>
+  </div>
+  <div class="filters reveal" role="group" aria-label="카테고리 필터">
+    <button class="chipbtn on" data-f="all">전체</button>
+    <button class="chipbtn" data-f="sight">명소</button>
+    <button class="chipbtn" data-f="food">식당</button>
+    <button class="chipbtn" data-f="cafe">카페</button>
+    <button class="chipbtn" data-f="mich">미쉐린</button>
+  </div>
+  <div class="cards reveal" id="cards"><!-- JS 렌더 --></div>
+</section>
+
+<!-- ================= LOCALS ================= -->
+<section id="locals">
+  <div class="sec-head reveal">
+    <span class="eyebrow">LOCAL LIST</span>
+    <h2>구·군별 로컬 맛집 리스트</h2>
+    <p>확보된 로컬 맛집 리스트 — 지번 주소를 그대로 내비에 넣으면 됩니다. 구·군과 카테고리를 조합하거나 상호·메뉴로 검색하세요.</p>
+  </div>
+  <div class="filters reveal" id="gu-filters" role="group" aria-label="구·군 필터">
+    <span style="align-self:center; color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; margin-right:2px">구/군</span>
+    <button class="chipbtn on" data-g="all">전체</button>
+  </div>
+  <div class="filters reveal" id="cat-filters" role="group" aria-label="카테고리 필터">
+    <span style="align-self:center; color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; margin-right:2px">카테고리</span>
+    <button class="chipbtn on" data-c="all">전체</button>
+  </div>
+  <div class="reveal" style="margin-bottom:14px">
+    <input id="lsearch" type="search" placeholder="상호 · 메뉴 검색 (예: 국밥, 곱창, 만두)" aria-label="맛집 검색"
+      style="width:100%; max-width:380px; padding:10px 16px; border-radius:999px; border:1.5px solid var(--line);
+             background:var(--panel); color:var(--ink); font-family:inherit; font-size:14px">
+  </div>
+  <div class="panel reveal" style="padding:8px 20px">
+    <div class="tablewrap" style="overflow-x:auto">
+      <table id="ltable" style="border-collapse:collapse; width:100%; font-size:13.5px">
+        <thead><tr>
+          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px; white-space:nowrap">구/군</th>
+          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">상호</th>
+          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">카테고리</th>
+          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">주소 (지번)</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="lcount" style="color:var(--muted); font-size:12.5px; margin:10px 2px 12px"></p>
+  </div>
+</section>
+
+<!-- ================= SEASONS ================= -->
+<section id="seasons">
+  <div class="sec-head reveal">
+    <span class="eyebrow">SEASONS</span>
+    <h2>계절이 바꾸는 부산</h2>
+    <p>네이버 여행 시즌 추천과 2026년 축제 일정을 반영했습니다.</p>
+  </div>
+  <div class="seasons reveal">
+    <button class="season-btn" data-s="spring"><b>봄</b><span>감성 충만</span></button>
+    <button class="season-btn on" data-s="summer"><b>여름</b><span>도심 속 휴양</span></button>
+    <button class="season-btn" data-s="autumn"><b>가을</b><span>영화와 단풍</span></button>
+    <button class="season-btn" data-s="winter"><b>겨울</b><span>빛의 계절</span></button>
+  </div>
+  <div id="season-panels" class="reveal"><!-- JS 렌더 --></div>
+  <div class="panel reveal" style="margin-top:14px">
+    <h3 style="margin:0 0 6px; font-size:16px">2026 축제 캘린더</h3>
+    <div class="fest"><div class="d">7~8월</div><div class="n"><b>부산바다축제 · 나이트페스타</b><small>해운대·광안리·다대포 — 해변은 아침·저녁이 쾌적</small></div></div>
+    <div class="fest"><div class="d">10/6~15</div><div class="n"><b>제31회 부산국제영화제 (BIFF)</b><small>예매 9/14 오픈 · 해운대·센텀 숙소 조기 마감 주의</small></div></div>
+    <div class="fest"><div class="d">11/7 (토)</div><div class="n"><b>부산불꽃축제</b><small>광안리 — 최고의 초대 카드, 차는 멀리 두고 지하철로</small></div></div>
+    <div class="fest"><div class="d">11월 말~1월</div><div class="n"><b>해운대 빛축제 · 광복로 트리축제</b><small>저녁 일정을 빛축제로 교체</small></div></div>
+  </div>
+</section>
+
+<!-- ================= TIPS ================= -->
+<section id="tips">
+  <div class="sec-head reveal">
+    <span class="eyebrow">FIELD NOTES</span>
+    <h2>알아두면 편한 것들</h2>
+  </div>
+  <div class="reveal">
+    <details open>
+      <summary>공통 원칙 3가지</summary>
+      <div class="body"><ul>
+        <li>감천·흰여울 주차장은 주말 오전 10시 전 도착이 승부처</li>
+        <li>블루라인파크 스카이캡슐은 <b>사전 예약 필수</b> (bluelinepark.com)</li>
+        <li>하루의 마무리는 광안대교 또는 더베이101 야경</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>요일 · 날씨 휴무 체크</summary>
+      <div class="body"><ul>
+        <li><b>월요일</b> — 태종대 다누비열차 휴무 (9/1~10/31은 무휴)</li>
+        <li><b>일요일</b> — 초량밀면 휴무</li>
+        <li><b>우천·강풍</b> — 송도케이블카·스카이캡슐·다릿돌전망대 중단 가능 → 실내(엑스더스카이·센텀시티)로 전환</li>
+        <li>식당 브레이크타임(15~17시)이 흔함 — 늦은 점심은 14시 전 입장</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>부산 운전 메모</summary>
+      <div class="body"><ul>
+        <li>황령터널(→광안리)·만덕터널은 퇴근시간 극심 정체 — 이동 여유 +20분</li>
+        <li>대형 교차로는 내비 안내보다 한 박자 먼저 차선 확보</li>
+        <li>해운대→광안리는 <b>광안대교</b>를 타면 이동 자체가 관광</li>
+        <li>관광지 주차는 공영주차장 기준으로 동선을 짤 것</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>액티비티 · 아이 동반 옵션</summary>
+      <div class="body"><ul>
+        <li><b>씨라이프 부산 아쿠아리움</b> (해운대) — 실내라 우천 대체 1순위, 아이 동반 필수 코스</li>
+        <li><b>요트 투어</b> (광안리·해운대) — 날 좋은 날 저녁, 광안대교를 바다에서 보는 옵션</li>
+        <li><b>서핑</b> (송정해변) — 강습 · 장비 대여 상시</li>
+        <li><b>스카이라인루지</b> (기장) — 코스 B에 끼워 넣기 좋은 액티비티</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>주요 예약 · 문의처</summary>
+      <div class="body"><ul>
+        <li>블루라인파크 스카이캡슐 — bluelinepark.com 온라인 예매</li>
+        <li>아홉산숲 — 100% 전화 예약제 051-721-9183 (성인 8,000원)</li>
+        <li>해운대암소갈비집 — 캐치테이블 웨이팅 (원격은 평일만) · 브레이크 15~17시</li>
+        <li>청사포 다릿돌전망대 안내소 — 051-749-5720</li>
+        <li>「2026 부산의 맛」 가이드북 — 부산시 공식 · 146곳 · 한/영/중/일. 미리 확보하면 상황별 안내가 쉬움</li>
+      </ul></div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  요금·운영시간은 2026년 7월 웹 조사 기준이며 변동될 수 있습니다 ·
+  네이버 여행 부산 시즌 추천 데이터 반영
+</footer>
+
+<script>
+/* ===== 데이터 ===== */
+const COURSES = {
+  A:{name:"코스 A · 클래식", color:"var(--rA)", sub:"부산 첫 방문 동행 · 감천 → 남포동 → 송도 → 광안리 · 약 35km",
+    tl:[
+      ["09:30","감천문화마을 (100분)","감정초등학교 공영주차장 · 10분 100원 · 주말은 09:30 전 도착"],
+      ["11:10","남포동 — 점심 + 자갈치·국제시장","차 15분 · 자갈치 공영주차장 · 점심 후보: 수정횟집(간장게장) · 이승학돈까스 · 후식은 BIFF광장 씨앗호떡"],
+      ["14:30","송도해상케이블카 + 용궁구름다리","차 15분 · 왕복 17,000원(투명 22,000) · 평일 1h/주말 2h 무료주차"],
+      ["17:30","광안리 — 횟집 저녁 + 광안대교 야경","차 40~50분 · 수변공원 공영주차장 · 저녁은 예약 권장"]],
+    tip:"플랜 B — 강풍으로 케이블카 중단 시 엑스더스카이(실내)로 대체. 시간이 밀리면 국제시장 생략."},
+  B:{name:"코스 B · 바닷가 드라이브", color:"var(--rB)", sub:"어르신 · 걷기 부담 동행 · 용궁사 → 기장 → 죽성 → 엑스더스카이 · 약 45km",
+    tl:[
+      ["09:30","해동용궁사 (90분)","입장 무료 · 주차 30분 2,000원+10분 500원 (카드만) · 오전이 한산"],
+      ["11:30","기장 해산물 점심","차 15분 · 연화리 전복죽 남풍 · 풍원장시골밥상집 · 탐복 본점"],
+      ["13:10","죽성드림성당 (30~40분)","차 10분 · 무료주차 · 내리면 바로 포토존"],
+      ["14:00","오션뷰 카페 — 웨이브온 · 오프오","차 10~15분 · 평일 오픈 직후가 한산"],
+      ["16:10","부산 엑스더스카이 (100층)","차 30~40분 · 27,000원(온라인 할인) · 2h 무료주차 · 일몰 추천"],
+      ["17:40","해운대 저녁 → 더베이101 야경","암소갈비집(브레이크 15~17시) 또는 돼지국밥"]],
+    tip:"플랜 B — 아홉산숲(전화예약 051-721-9183)을 용궁사 다음 슬롯에 교체 투입 가능. 격식 있는 저녁이면 미쉐린 1스타 모리·팔레트(달맞이길) 예약."},
+  C:{name:"코스 C · 트렌디", color:"var(--rC)", sub:"젊은 동행 · 사진 중심 · 흰여울 → 남포 → 스카이캡슐 → 청사포 → 광안리 · 약 40km",
+    tl:[
+      ["09:30","흰여울문화마을 + 절영해안산책로","절영 공영주차장 · 10분 200원 · 평일 강추 · 산책로 개방 확인"],
+      ["11:50","남포동 점심 + BIFF광장 씨앗호떡","차 15분 · 밀면 or 돼지국밥 (초량밀면 일요일 휴무)"],
+      ["14:30","블루라인파크 스카이캡슐 (미포→청사포)","차 40~50분 · 사전 예약 필수 · 4인승 캡슐"],
+      ["15:30","청사포 — 다릿돌전망대 + 카페","전망대 무료(하절기 ~20시) · 복귀는 해변열차"],
+      ["17:30","광안리 저녁 + 수변공원 야경","차 25분"]],
+    tip:"플랜 B — 캡슐 매진 시 해변열차 또는 엑스더스카이로 대체."},
+  D:{name:"1박 2일 · 표준", color:"var(--accent)", sub:"가장 많이 쓰게 될 구성 · 숙소는 해운대",
+    tl:[
+      ["1일차","해운대권","점심 돼지국밥 → 스카이캡슐+청사포 → 엑스더스카이 일몰 → 광안리 저녁·야경"],
+      ["2일차","원도심권","감천문화마을(오전 필수) → 남포동 점심·시장 → 송도케이블카 → 귀가"]],
+    tip:"김해공항→해운대 약 60분 · 부산역→해운대 약 40분."},
+  E:{name:"2박 3일 · 풀코스", color:"var(--accent)", sub:"부산을 제대로 보여줄 때 · 해운대 연박 추천",
+    tl:[
+      ["1일차","해운대권","1박 2일의 1일차와 동일"],
+      ["2일차","원도심 + 영도","감천 → 남포동·보수동책방골목 → 흰여울 → 태종대(월 휴무 주의) → 서면 저녁 (83해치 삼겹살 · 우시야 한우 · 개미집 낙곱새)"],
+      ["3일차","기장 드라이브","용궁사 → 죽성성당 → 기장 해산물 점심 → 웨이브온(또는 아홉산숲) → 귀가"]],
+    tip:"3일차 기장→김해공항은 약 60~70분 — 귀가 시간을 여유 있게."}
+};
+
+const PINS = [
+  // [x, y, 이름, 코스색(있으면), 툴팁]
+  [51,250,"김해공항",null,"부산의 관문 · 해운대까지 차 약 60분"],
+  [125,497,"다대포·장림포구",null,"'부네치아' 일몰 명소 · 무료주차 · 다대포까지 차 10분"],
+  [191,410,"감천문화마을","A","09:00~18:00(하절기) · 무료 · 감정초 공영주차장 10분 100원 · 주말 오전 만차 주의"],
+  [218,455,"송도케이블카","A","09:00~22:00(7·8월) · 왕복 17,000원 · 케이블카 이용 시 무료주차 1~2h"],
+  [238,408,"남포동·자갈치","A","자갈치·국제시장·BIFF광장 도보권 · 자갈치 공영주차장"],
+  [274,452,"흰여울문화마을","C","상시 무료 · 절영 공영주차장 10분 200원 · 평일 추천"],
+  [360,500,"태종대",null,"다누비열차 순환 4,000원 · 월요일 휴무(9~10월 제외)"],
+  [304,294,"서면",null,"돼지국밥 거리 · 삼겹살·소고기 상권 · 저녁 슬롯"],
+  [327,60,"범어사",null,"입장 무료 · 금정산 고찰 · 가을 단풍"],
+  [475,100,"아홉산숲",null,"100% 전화예약(051-721-9183) · 8,000원 · 무료주차"],
+  [446,405,"오륙도",null,"스카이워크 무료 · 하절기 09~19시"],
+  [429,306,"광안리","A","광안대교 야경 · 수변공원 공영주차장 · 횟집 저녁"],
+  [488,292,"더베이101","B","08~24시 · 마린시티 야경 · 매장 이용 시 1~2h 무료주차"],
+  [533,282,"엑스더스카이·해운대","B","10~21시 · 27,000원 · 2h 무료주차 · 일몰 시간대"],
+  [550,284,"미포","C","블루라인파크 출발점 · 스카이캡슐 예약 필수"],
+  [581,290,"청사포","C","다릿돌전망대 무료(6~8월 ~20시) · 쌍둥이 등대"],
+  [617,250,"송정",null,"서핑 해변 · 공극샌드커피 · 올드머그"],
+  [651,228,"해동용궁사","B","04:30~19:20 · 무료 · 주차 30분 2,000원(카드만)"],
+  [677,172,"죽성드림성당","B","드라마 세트장 · 상시 무료 · 무료주차"],
+  [716,86,"웨이브온(임랑)","B","기장 대표 오션뷰 카페 · 루프탑"]
+];
+
+const SPOTS = [
+  {c:"sight",n:"감천문화마을",a:"사하구",d:"산비탈 파스텔 마을, '한국의 마추픽추'. 무료 · 안내센터 09~18시.",f:"주말 오전 10시 전 주차 필수"},
+  {c:"sight",n:"해운대 블루라인파크",a:"해운대구",d:"미포↔청사포 2km 해안 레일. 스카이캡슐 4인승 · 편도 약 30분.",f:"사전 예약 필수"},
+  {c:"sight",n:"송도해상케이블카",a:"서구",d:"바다 위 1.62km. 왕복 17,000원, 투명 크리스탈 22,000원. 용궁구름다리 연계.",f:"이용 시 무료주차 1~2h"},
+  {c:"sight",n:"해동용궁사",a:"기장군",d:"바다 절벽 위 사찰. 04:30~19:20 · 입장 무료. '소원 하나는 꼭' 속설.",f:"주차 카드결제만 가능"},
+  {c:"sight",n:"태종대 (다누비열차)",a:"영도구",d:"해안 절벽 유원지. 순환열차 4,000원 · 성수기 ~19:30.",f:"월요일 휴무 (9~10월 제외)"},
+  {c:"sight",n:"부산 엑스더스카이",a:"해운대",d:"엘시티 100층 전망대. 10~21시 · 27,000원 · 온라인 할인.",f:"일몰 시간대 + 2h 무료주차"},
+  {c:"sight",n:"흰여울문화마을",a:"영도구",d:"절벽 위 골목 마을, 영화 '변호인' 촬영지. 상시 무료.",f:"평일 방문 추천"},
+  {c:"sight",n:"오륙도 스카이워크",a:"남구",d:"바다 위 유리 전망대. 무료 · 하절기 09~19시.",f:""},
+  {c:"sight",n:"청사포 다릿돌전망대",a:"해운대구",d:"바다로 뻗은 U자형 스카이워크. 무료 · 6~8월 ~20시.",f:""},
+  {c:"sight",n:"아홉산숲",a:"기장군 철마면",d:"한 가문이 400년 지킨 대나무숲. 성인 8,000원 · 무료주차.",f:"100% 전화 예약제"},
+  {c:"sight",n:"범어사",a:"금정구",d:"금정산 고찰. 입장 무료 · 조용한 힐링 코스, 가을 단풍 명소.",f:""},
+  {c:"sight",n:"더베이101",a:"마린시티",d:"마린시티 야경의 정석. 08~24시 · 매장 이용 시 무료주차.",f:"낮보다 저녁"},
+  {c:"sight",n:"남포동 원도심 벨트",a:"중구",d:"자갈치–BIFF광장–국제시장–부평깡통–보수동책방골목 도보권.",f:"자갈치 공영주차장 거점"},
+  {c:"sight",n:"장림포구 '부네치아'",a:"사하구",d:"알록달록 어촌 포구. 무료 · 무료주차 · 다대포 일몰과 연계.",f:"일몰 시간대"},
+  {c:"sight",n:"죽성드림성당",a:"기장군",d:"바닷가 드라마 세트장. 상시 무료 · 무료주차 · 부담 없는 포토스팟.",f:""},
+  {c:"sight",n:"스카이라인루지",a:"기장군",d:"루지 · 짚라인. 10~19시(7월~) · 무료주차. 아이 동반용 옵션.",f:""},
+  {c:"sight",n:"깡깡이예술마을",a:"영도구",d:"수리조선소 골목 + 예술 벽화. 흰여울과 묶는 영도 산업유산 코스.",f:""},
+  {c:"sight",n:"센텀시티",a:"해운대구",d:"신세계백화점 · 영화관 · 스파랜드. 날씨가 무너졌을 때의 안전판.",f:""},
+  {c:"food",n:"안목 서면점",a:"서면 · 돼지국밥",d:"1+등급 돼지, 순수 돼지뼈 육수. 캐치테이블 예약 가능.",f:""},
+  {c:"food",n:"서면 돼지국밥거리",a:"서면시장",d:"70년 노포가 모인 향토음식 특화거리. 송정3대국밥 등.",f:""},
+  {c:"food",n:"엄용백돼지국밥",a:"해운대",d:"해운대 국밥 강자 · ★4.5 · 캐치테이블.",f:""},
+  {c:"food",n:"거대돼지국밥",a:"해운대",d:"★4.6 · 거대곰탕·거대갈비와 같은 계열.",f:""},
+  {c:"food",n:"수변최고돼지국밥",a:"민락 (광안리)",d:"야경 코스와 이어 쓰기 좋은 위치 · ★4.4.",f:""},
+  {c:"food",n:"개금밀면",a:"부산진구 개금동",d:"부산 3대 밀면. 11:00~19:40.",f:"주차 불가 — 공영주차장 이용"},
+  {c:"food",n:"초량밀면",a:"부산역 건너편",d:"한약재 육수 물밀면 + 왕만두. 11~18시.",f:"일요일 휴무"},
+  {c:"food",n:"행복한횟집",a:"민락수변로 8층",d:"광안대교 뷰 횟집. 11:30~22:00 · 지하주차 2h 무료.",f:"저녁 예약 권장"},
+  {c:"food",n:"해린횟집",a:"광안리",d:"11~24시(LO 22:20) · 수변공원주차장 100분 지원.",f:""},
+  {c:"food",n:"해운대암소갈비집",a:"해운대 · 1964년",d:"미쉐린 가이드 부산 2026. 11:30~22:00 · 브레이크 15~17시.",f:"캐치테이블 웨이팅"},
+  {c:"food",n:"연화리 전복죽 남풍",a:"기장읍 연화리 152-1",d:"기장 바닷가 전복죽. 코스 B 점심 1순위.",f:""},
+  {c:"food",n:"풍원장시골밥상집",a:"기장읍 시랑리 108-7",d:"용궁사 인근 한식 시골밥상. 어르신 동행에 무난.",f:""},
+  {c:"food",n:"탐복 본점",a:"일광읍 동백리 285-14",d:"기장 복요리 한식.",f:""},
+  {c:"food",n:"수정횟집",a:"중구 남포동4가",d:"3대째 비법 간장 · 72시간 숙성 간장게장.",f:""},
+  {c:"food",n:"중앙식당",a:"중구 · 노포",d:"50년 전통 생대구탕. 서울 손님에게 색다른 한 그릇.",f:""},
+  {c:"food",n:"옛날 오막집",a:"노포 · 양곱창",d:"숯불 양곱창. 로컬 감성 저녁 자리.",f:""},
+  {c:"food",n:"83해치",a:"서면 · 삼겹살",d:"★4.9 삼겹살. 서면 저녁 슬롯 대표.",f:""},
+  {c:"food",n:"우시야",a:"서면 · 한우",d:"한우 오마카세 ★4.7. 격식 있는 자리용.",f:""},
+  {c:"food",n:"청기와타운",a:"서면 · 소고기",d:"LA 코리아타운풍 고급 소고기 전문점.",f:""},
+  {c:"food",n:"개미집 서면본점",a:"서면역 1번 출구",d:"부산 명물 낙곱새 (낙지·곱창·새우 전골).",f:""},
+  {c:"food",n:"백화양곱창",a:"남포동",d:"남포동 양곱창 골목 ★4.3.",f:""},
+  {c:"cafe",n:"웨이브온 커피",a:"기장 임랑",d:"기장 대표 대형 오션뷰 카페. 3층 + 루프탑.",f:""},
+  {c:"cafe",n:"오프오 OFFOH",a:"기장",d:"드라마 '피라미드 게임' 촬영지. 야외 코타츠 · 텐트석.",f:""},
+  {c:"cafe",n:"공극샌드커피",a:"송정",d:"3층 루프탑 오션뷰, 화이트 톤.",f:""},
+  {c:"cafe",n:"올드머그",a:"송정",d:"빈티지 감성 · 숲뷰+오션뷰.",f:""},
+  {c:"cafe",n:"흰여울비치",a:"영도 절영로",d:"발리 감성 오션뷰. 11:00~20:30.",f:""},
+  {c:"cafe",n:"헤일르",a:"영도 흰여울",d:"매장 전체가 오션뷰. 평일 09~19:30.",f:""},
+  {c:"cafe",n:"흰여울점빵",a:"흰여울길 121",d:"바다 보며 라면 한 그릇(5,000원). 11~18시.",f:""},
+  {c:"cafe",n:"모모스커피 도모헌점",a:"수영구 남천동",d:"부산 대표 스페셜티 커피 — 월드 바리스타 챔피언 배출.",f:""},
+  {c:"cafe",n:"용호동할매팥빙수단팥죽",a:"남구 용호동",d:"오륙도 가는 길의 팥빙수 · 단팥죽 노포.",f:""},
+  {c:"mich",n:"미쉐린 가이드 부산 2026",a:"총 55곳 선정",d:"1스타 4곳 · 빕 구르망 20곳(신규 3) · 그린 스타 1곳. 격식 있는 자리는 스타, 가성비 한 끼는 빕 구르망.",f:""},
+  {c:"mich",n:"모리",a:"해운대 · 일식",d:"부산식 가이세키 — 산과 바다의 진미를 정갈한 코스로.",f:"미쉐린 1스타"},
+  {c:"mich",n:"팔레트",a:"달맞이길 · 모던 프렌치",d:"달맞이길 흰 건물 3층. 장르를 넘나드는 모던 프렌치.",f:"미쉐린 1스타"},
+  {c:"mich",n:"피오또",a:"달맞이길 · 이탈리안",d:"복합문화공간 '에케'로 이전. 지속가능성 그린 스타 동시 보유.",f:"미쉐린 1스타 + 그린 스타"},
+  {c:"mich",n:"르도헤",a:"해운대 · 컨템퍼러리",d:"2026년 1스타로 신규 승급.",f:"미쉐린 1스타 (신규)"},
+  {c:"mich",n:"해목",a:"해운대 · 장어",d:"나고야식 히츠마부시의 정석. 숯불 향 밴 두툼한 장어.",f:"빕 구르망"},
+  {c:"mich",n:"뫼밀집",a:"메밀 자가제면",d:"국산 메밀 100% 매일 직접 제면. 들기름 메밀면.",f:"빕 구르망 (2026 신규)"},
+  {c:"mich",n:"송헌집",a:"수영구 민락동 171-19",d:"광안리 인근 한식 — 코스 A·C 저녁 슬롯과 연계 가능.",f:"빕 구르망 (2026 신규)"},
+  {c:"mich",n:"평양집",a:"부산",d:"2026 빕 구르망 신규 3곳 중 하나.",f:"빕 구르망 (2026 신규)"},
+  {c:"mich",n:"아르프",a:"비건",d:"부산 빕 구르망 유일의 비건 레스토랑. 고사리 파스타 등.",f:"빕 구르망"}
+];
+
+const SEASONS = {
+  spring:{t:"부산으로 떠나는 감성 충만 봄 여행",p:["청사포 다릿돌전망대","블루라인파크","부산민주공원","대저생태공원 (유채꽃)","감천문화마을"],x:"달맞이길 벚꽃 드라이브를 코스 B·C에 추가하세요."},
+  summer:{t:"해운대부터 광안리까지, 도심 속 휴양지",p:["감천문화마을","블루라인파크","아홉산숲","오륙도 해맞이공원","클럽디오아시스 스파&워터파크"],x:"해변은 아침·저녁으로, 한낮은 실내(엑스더스카이)나 숲(아홉산숲)으로."},
+  autumn:{t:"화려하면서도 아기자기한 부산의 매력",p:["마린시티","블루라인파크","범어사 (단풍)","감천문화마을","보수동책방골목"],x:"10월 BIFF 기간엔 남포동 BIFF광장 + 영화의전당 코스를 추가."},
+  winter:{t:"반짝이는 야경 속에 빛나는 부산의 밤",p:["감천문화마을","광안리해수욕장","태종대","더베이101","해동용궁사 (일출)","해운대 빛축제"],x:"저녁 일정을 빛축제(해운대·광복로)로 교체하면 겨울이 하이라이트가 됩니다."}
+};
+
+/* ===== 히어로 파도 캔버스 ===== */
+(function(){
+  const cv = document.getElementById("sea"), ctx = cv.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W,H,t=0;
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function resize(){ W = cv.width = cv.clientWidth * devicePixelRatio; H = cv.height = cv.clientHeight * devicePixelRatio; }
+  addEventListener("resize", resize); resize();
+  function wave(base, amp, len, speed, color, alpha){
+    ctx.beginPath(); ctx.moveTo(0,H);
+    for(let x=0; x<=W; x+=8){
+      const y = base + Math.sin(x/len + t*speed)*amp + Math.sin(x/(len*0.55) + t*speed*1.6)*amp*0.4;
+      ctx.lineTo(x,y);
+    }
+    ctx.lineTo(W,H); ctx.closePath();
+    ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    const s1=css("--sea1"), s2=css("--sea2"), s3=css("--sea3");
+    wave(H*0.72, 26*devicePixelRatio, 260*devicePixelRatio, 0.35, s1, .8);
+    wave(H*0.80, 34*devicePixelRatio, 200*devicePixelRatio, 0.5,  s2, .75);
+    wave(H*0.88, 42*devicePixelRatio, 160*devicePixelRatio, 0.7,  s3, .8);
+    t += 0.016;
+    if(!reduced) requestAnimationFrame(frame);
+  }
+  frame(); // reduced-motion이면 정지 화면 1프레임만
+})();
+
+/* ===== 코스 탭 ===== */
+const panel = document.getElementById("course-panel");
+function renderCourse(k){
+  const c = COURSES[k];
+  panel.innerHTML =
+    '<h3 class="course-title"><span class="dot" style="background:'+c.color+'"></span>'+c.name+'</h3>'+
+    '<p class="course-sub">'+c.sub+'</p>'+
+    '<ul class="tl">'+ c.tl.map(r=>
+      '<li><span class="t">'+r[0]+'</span><span class="m"><i></i></span><span class="c"><b>'+r[1]+'</b><small>'+r[2]+'</small></span></li>'
+    ).join("") + '</ul>'+
+    '<div class="course-tip"><b>TIP</b> '+c.tip+'</div>';
+  const routes = {A:["A"], B:["B"], C:["C"], D:["A","C"], E:["A","B","C"]};
+  ["A","B","C"].forEach(id=>{
+    document.getElementById("r"+id).classList.toggle("on", routes[k].includes(id));
+  });
+}
+document.querySelectorAll(".tab").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected","false"));
+    b.setAttribute("aria-selected","true");
+    renderCourse(b.dataset.course);
+  });
+});
+renderCourse("A");
+
+/* ===== 지도 핀 + 툴팁 ===== */
+const pinsG = document.getElementById("pins");
+const routeColor = {A:"var(--rA)",B:"var(--rB)",C:"var(--rC)"};
+PINS.forEach(p=>{
+  const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.setAttribute("class","spot-pin"); g.setAttribute("tabindex","0");
+  const col = p[3] ? routeColor[p[3]] : "var(--muted)";
+  g.innerHTML = '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(p[3]?5.5:4)+'" fill="'+col+'"></circle>'+
+    '<text x="'+(p[0]+9)+'" y="'+(p[1]+4)+'">'+p[2]+'</text>';
+  const tip = document.getElementById("tooltip");
+  function show(){
+    tip.innerHTML = "<b>"+p[2]+"</b>"+p[4];
+    tip.classList.add("on");
+    const box = g.closest(".mapbox").getBoundingClientRect();
+    const svg = g.closest("svg").getBoundingClientRect();
+    const sx = svg.width/780, sy = svg.height/570;
+    let x = svg.left - box.left + p[0]*sx + 14, y = svg.top - box.top + p[1]*sy - 12;
+    if (x > box.width - 240) x -= 260;
+    tip.style.left = x+"px"; tip.style.top = y+"px";
+  }
+  function hide(){ tip.classList.remove("on"); }
+  g.addEventListener("mouseenter",show); g.addEventListener("mouseleave",hide);
+  g.addEventListener("focus",show); g.addEventListener("blur",hide);
+  pinsG.appendChild(g);
+});
+
+/* ===== 스팟 카드 ===== */
+const CATNAME = {sight:"명소", food:"식당", cafe:"카페", mich:"미쉐린 2026"};
+const CATCLASS = {sight:"", food:" food", cafe:" food", mich:" mich"};
+const cards = document.getElementById("cards");
+cards.innerHTML = SPOTS.map(s=>
+  '<article class="spot-card" data-c="'+s.c+'">'+
+    '<span class="cat'+CATCLASS[s.c]+'">'+CATNAME[s.c]+'</span>'+
+    '<h3>'+s.n+'</h3><span class="area">'+s.a+'</span>'+
+    '<p>'+s.d+'</p>'+ (s.f ? '<span class="flag">⚑ '+s.f+'</span>' : '') +
+  '</article>'
+).join("");
+document.querySelectorAll(".chipbtn").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".chipbtn").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    const f = b.dataset.f;
+    document.querySelectorAll(".spot-card").forEach(c=>{
+      c.classList.toggle("hiddencard", f!=="all" && c.dataset.c!==f);
+    });
+  });
+});
+
+/* ===== 로컬 맛집 리스트 ===== */
+const LOCALS = [
+  ["중구","이화양곱창","곱창·막창·양","부평동2가 24-18"],
+  ["중구","세정생선회","생선회","부평동2가 66-18"],
+  ["중구","옥생관","중식당","부평동1가 2-25"],
+  ["중구","편의방","딤섬·중식만두","중앙동4가 30-5 1층"],
+  ["동구","초량1941","카페·디저트","초량동 845"],
+  ["동구","고관함박","양식","수정동 63-1 1층"],
+  ["동구","영심이왕족발 수정점","족발·보쌈","수정동 217-3"],
+  ["동구","범일빈대떡","한식","범일동 85-2 1층"],
+  ["동구","60년전통할매국밥","국밥","범일동 28-5"],
+  ["남구","용호동할매팥빙수단팥죽 본점","빙수","용호동 148-2 1층"],
+  ["남구","김유순대구뽈찜","해물·생선요리","대연동 291-2"],
+  ["사하구","오두리할매셋째딸연탄쭈꾸미","주꾸미요리","괴정동 382-8"],
+  ["수영구","모모스커피 도모헌점","카페·디저트","남천동 59-6 도모헌 본관 1층"],
+  ["수영구","진미언양불고기","육류·고기요리","광안동 203-21"],
+  ["수영구","초필살돼지구이 광안직영점","육류·고기요리","광안동 198-5 1층"],
+  ["수영구","송헌집 (빕 구르망 2026)","한식","민락동 171-19 1, 2층"],
+  ["수영구","수변최고돼지국밥 민락본점","국밥","민락동 110-54"],
+  ["수영구","해진아나고구이","장어·먹장어요리","광안동 1075-3"],
+  ["해운대구","거대곰탕","한식","우동 1432 현대베네시티아파트"],
+  ["해운대구","거대갈비","소고기구이","중동 1139-4"],
+  ["해운대구","해운대암소갈비집 (미쉐린 셀렉션)","육류·고기요리","중동 1225-1"],
+  ["해운대구","양산왕돼지국밥","국밥","재송동 1118-7"],
+  ["해운대구","거대숯불구이","소고기구이","중동 1777-2"],
+  ["연제구","서울왕돈까스","돈가스","거제동 1-8"],
+  ["북구","금용만두","중식당","구포동 1060-268 (구포우체국 옆)"],
+  ["금정구","금죽헌 금정산성점","육류·고기요리","금성동 928-2 1층"],
+  ["기장군","풍원장시골밥상집","한식","기장읍 시랑리 108-7"],
+  ["기장군","연화리 전복죽 남풍","한식","기장읍 연화리 152-1"],
+  ["기장군","피크스퀘어","카페·디저트","기장읍 죽성리 411"],
+  ["기장군","기장끝집 죽성본점","죽","기장읍 죽성리 402-3 1층"],
+  ["기장군","어느멋진날","백반·가정식","일광읍 삼성리 145-12"],
+  ["기장군","갤러리예동","갤러리·화랑 (전시)","철마면 웅천리 36-3"],
+  ["기장군","전산가든","아귀찜·해물찜","일광읍 학리 181-2"],
+  ["기장군","일광당","찐빵","일광읍 이천리 836-5"],
+  ["기장군","시골의맛","칼국수·만두","일광읍 이천리 833-2 1층"],
+  ["기장군","탐복 본점","한식","일광읍 동백리 285-14"]
+];
+function catGroup(c){
+  if (/카페|빙수|찐빵/.test(c)) return "카페·디저트";
+  if (/중식|딤섬/.test(c)) return "중식";
+  if (/회|해물|주꾸미|장어|아귀/.test(c)) return "해산물";
+  if (/곱창|육류|소고기|족발|불고기/.test(c)) return "고기·구이";
+  if (/국밥/.test(c)) return "국밥";
+  if (/칼국수|만두/.test(c)) return "면·만두";
+  if (/돈가스|양식/.test(c)) return "양식·돈가스";
+  if (/갤러리/.test(c)) return "기타";
+  return "한식·밥집";
+}
+const guFilters = document.getElementById("gu-filters");
+[...new Set(LOCALS.map(r=>r[0]))].forEach(g=>{
+  const b = document.createElement("button");
+  b.className = "chipbtn"; b.dataset.g = g; b.textContent = g;
+  guFilters.appendChild(b);
+});
+const catFilters = document.getElementById("cat-filters");
+[...new Set(LOCALS.map(r=>catGroup(r[2])))].forEach(c=>{
+  const b = document.createElement("button");
+  b.className = "chipbtn"; b.dataset.c = c; b.textContent = c;
+  catFilters.appendChild(b);
+});
+const ltbody = document.querySelector("#ltable tbody");
+const lcount = document.getElementById("lcount");
+const lsearch = document.getElementById("lsearch");
+let curGu = "all", curCat = "all";
+function renderLocals(){
+  const q = lsearch.value.trim().toLowerCase();
+  const rows = LOCALS.filter(r =>
+    (curGu==="all" || r[0]===curGu) &&
+    (curCat==="all" || catGroup(r[2])===curCat) &&
+    (!q || (r[1]+r[2]).toLowerCase().includes(q))
+  );
+  ltbody.innerHTML = rows.map(r=>
+    '<tr>'+
+    '<td style="border-bottom:1px solid var(--line); padding:9px 12px; white-space:nowrap; color:var(--accent); font-weight:700">'+r[0]+'</td>'+
+    '<td style="border-bottom:1px solid var(--line); padding:9px 12px; font-weight:600">'+r[1]+'</td>'+
+    '<td style="border-bottom:1px solid var(--line); padding:9px 12px; color:var(--muted)">'+r[2]+'</td>'+
+    '<td style="border-bottom:1px solid var(--line); padding:9px 12px; color:var(--muted)">'+r[3]+'</td>'+
+    '</tr>'
+  ).join("") || '<tr><td colspan="4" style="padding:18px 12px; color:var(--muted)">검색 결과가 없습니다.</td></tr>';
+  lcount.textContent = rows.length + "곳 표시 중 · 전체 " + LOCALS.length + "곳";
+}
+guFilters.addEventListener("click", e=>{
+  const b = e.target.closest(".chipbtn"); if(!b) return;
+  guFilters.querySelectorAll(".chipbtn").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); curGu = b.dataset.g; renderLocals();
+});
+catFilters.addEventListener("click", e=>{
+  const b = e.target.closest(".chipbtn"); if(!b) return;
+  catFilters.querySelectorAll(".chipbtn").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); curCat = b.dataset.c; renderLocals();
+});
+lsearch.addEventListener("input", renderLocals);
+renderLocals();
+
+/* ===== 시즌 ===== */
+const sp = document.getElementById("season-panels");
+function renderSeason(k){
+  const s = SEASONS[k];
+  sp.innerHTML = '<div class="panel"><h3 style="margin:0 0 4px; font-size:16px">'+s.t+'</h3>'+
+    '<div class="pill-row">'+ s.p.map(x=>'<span class="pill">'+x+'</span>').join("") +'</div>'+
+    '<p style="color:var(--muted); font-size:13.5px; margin:10px 0 0">'+s.x+'</p></div>';
+}
+document.querySelectorAll(".season-btn").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".season-btn").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); renderSeason(b.dataset.s);
+  });
+});
+renderSeason("summer");
+
+/* ===== 스크롤 리빌 ===== */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
