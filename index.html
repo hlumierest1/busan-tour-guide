@@ -200,7 +200,7 @@ footer{max-width:1080px; margin:80px auto 0; padding:26px 28px 60px; border-top:
       <a class="btn ghost" href="#spots">스팟 탐색</a>
     </div>
     <div class="stats">
-      <div class="stat"><b>5</b><span>추천 코스</span></div>
+      <div class="stat"><b>6</b><span>추천 코스</span></div>
       <div class="stat"><b>20</b><span>검증 명소</span></div>
       <div class="stat"><b>60+</b><span>맛집 · 카페</span></div>
       <div class="stat"><b>4</b><span>계절별 플랜</span></div>
@@ -223,13 +223,14 @@ footer{max-width:1080px; margin:80px auto 0; padding:26px 28px 60px; border-top:
 <section id="courses">
   <div class="sec-head reveal">
     <span class="eyebrow">COURSES</span>
-    <h2>다섯 가지 코스, 하나의 지도</h2>
+    <h2>여섯 가지 코스, 하나의 지도</h2>
     <p>동행이 누구냐에 따라 코스를 고르세요. 탭을 누르면 타임라인과 지도의 동선이 함께 바뀝니다.</p>
   </div>
   <div class="tabs reveal" role="tablist" aria-label="코스 선택">
     <button class="tab" role="tab" data-course="A" aria-selected="true">A · 클래식</button>
     <button class="tab" role="tab" data-course="B" aria-selected="false">B · 드라이브</button>
     <button class="tab" role="tab" data-course="C" aria-selected="false">C · 트렌디</button>
+    <button class="tab" role="tab" data-course="F" aria-selected="false">커피·빵집</button>
     <button class="tab" role="tab" data-course="D" aria-selected="false">1박 2일</button>
     <button class="tab" role="tab" data-course="E" aria-selected="false">2박 3일</button>
   </div>
@@ -251,6 +252,7 @@ footer{max-width:1080px; margin:80px auto 0; padding:26px 28px 60px; border-top:
         <polyline id="rA" class="route" points="191,410 238,408 218,455 300,380 429,306" stroke="var(--rA)" marker-end="url(#arw)"/>
         <polyline id="rB" class="route" points="651,228 677,172 716,86 640,200 533,282 488,292" stroke="var(--rB)" marker-end="url(#arw)"/>
         <polyline id="rC" class="route" points="274,452 240,412 400,340 550,284 581,290 429,308" stroke="var(--rC)" marker-end="url(#arw)"/>
+        <polyline id="rF" class="route" points="268,366 287,441 418,318 486,292 700,105" stroke="var(--amber)" marker-end="url(#arw)"/>
         <g id="pins" font-size="12.5" fill="var(--ink)"></g>
         <text x="26" y="556" fill="var(--muted)" font-size="11">개략도 — 실제 축척과 다릅니다 · 스팟에 마우스를 올려보세요</text>
       </svg>
@@ -422,6 +424,16 @@ const COURSES = {
       ["15:30","청사포 — 다릿돌전망대 + 카페","전망대 무료(하절기 ~20시) · 복귀는 해변열차"],
       ["17:30","광안리 저녁 + 수변공원 야경","차 25분"]],
     tip:"플랜 B — 캡슐 매진 시 해변열차 또는 엑스더스카이로 대체."},
+  F:{name:"커피 & 빵집 투어", color:"var(--amber)", sub:"초량 → 영도 → 남천 → 마린시티 → 칠암 · 약 55km",
+    tl:[
+      ["10:00","초량온당 (동구)","갓 구운 빵 + 모닝커피 · 초량중로 135 · 초량1941(우유 디저트)도 인근"],
+      ["11:10","모모스커피 로스터리&커피바 (영도)","차 10분 · 봉래동 창고거리 · 월드 바리스타 챔피언 배출팀의 로스터리"],
+      ["12:30","점심 — 남포동 or 영도","가볍게: 이재모피자 본점 · 부산족발 · 흰여울점빵"],
+      ["14:00","모모스커피 도모헌점 (수영구 남천동)","차 25분 · 고택 정원 카페 — 스페셜티 핸드드립"],
+      ["15:30","옵스 마린시티점","차 15분 · 부산 대표 베이커리 — 선물용 빵 포장 + 마린시티·더베이101 산책"],
+      ["16:40","칠암사계 (기장 칠암항)","차 40분 · 오션뷰 베이커리 카페 · 일몰 시간대 추천"],
+      ["18:00","(선택) 저녁: 기장","원조짚불곰장어기장외가집 · 연화리 전복죽 남풍"]],
+    tip:"카페인 과다 주의 — 전부 마시지 말고 2곳만 '마시는 곳', 나머지는 '빵 포장'으로. 대안 카페: 금정사계(금정구) · 웨이브온(임랑) · 탄티(정관)."},
   D:{name:"1박 2일 · 표준", color:"var(--accent)", sub:"가장 많이 쓰게 될 구성 · 숙소는 해운대",
     tl:[
       ["1일차","해운대권","점심 돼지국밥 → 스카이캡슐+청사포 → 엑스더스카이 일몰 → 광안리 저녁·야경"],
@@ -447,6 +459,10 @@ const PINS = [
   [304,294,"서면",null,"돼지국밥 거리 · 삼겹살·소고기 상권 · 저녁 슬롯"],
   [357,330,"황령산 봉수대",null,"도심 360° 파노라마 야경 · 차로 정상 인근 진입 가능"],
   [63,400,"을숙도 생태공원",null,"낙동강 하구 철새 도래지 · 평탄한 트레킹·자전거 코스"],
+  [268,366,"초량온당","F","갓 구운 빵과 모닝커피 · 동구 초량중로 135"],
+  [287,441,"모모스 로스터리","F","영도 봉래동 창고거리 · 월드 바리스타 챔피언 배출팀"],
+  [418,318,"모모스 도모헌","F","고택 정원 스페셜티 카페 · 수영구 남천동"],
+  [700,105,"칠암사계","F","칠암항 오션뷰 베이커리 카페 · 일몰 명소"],
   [327,60,"범어사",null,"입장 무료 · 금정산 고찰 · 가을 단풍"],
   [475,100,"아홉산숲",null,"100% 전화예약(051-721-9183) · 8,000원 · 무료주차"],
   [446,405,"오륙도",null,"스카이워크 무료 · 하절기 09~19시"],
@@ -571,8 +587,8 @@ function renderCourse(k){
       '<li><span class="t">'+r[0]+'</span><span class="m"><i></i></span><span class="c"><b>'+r[1]+'</b><small>'+r[2]+'</small></span></li>'
     ).join("") + '</ul>'+
     '<div class="course-tip"><b>TIP</b> '+c.tip+'</div>';
-  const routes = {A:["A"], B:["B"], C:["C"], D:["A","C"], E:["A","B","C"]};
-  ["A","B","C"].forEach(id=>{
+  const routes = {A:["A"], B:["B"], C:["C"], F:["F"], D:["A","C"], E:["A","B","C"]};
+  ["A","B","C","F"].forEach(id=>{
     document.getElementById("r"+id).classList.toggle("on", routes[k].includes(id));
   });
 }
@@ -587,7 +603,7 @@ renderCourse("A");
 
 /* ===== 지도 핀 + 툴팁 ===== */
 const pinsG = document.getElementById("pins");
-const routeColor = {A:"var(--rA)",B:"var(--rB)",C:"var(--rC)"};
+const routeColor = {A:"var(--rA)",B:"var(--rB)",C:"var(--rC)",F:"var(--amber)"};
 PINS.forEach(p=>{
   const g = document.createElementNS("http://www.w3.org/2000/svg","g");
   g.setAttribute("class","spot-pin"); g.setAttribute("tabindex","0");
