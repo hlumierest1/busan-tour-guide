@@ -1,11 +1,5 @@
 <!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>부산 투어 — 바다의 도시를 안내하는 법</title>
-</head>
-<body>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>부산 투어 — 바다의 도시를 안내하는 법</title></head><body>
 <style>
 :root{
   --bg:#F3F8FA; --bg2:#E7F0F4; --panel:#FFFFFF; --ink:#12242F; --muted:#54707E; --line:#D3E1E8;
@@ -309,7 +303,7 @@ footer{max-width:1080px; margin:80px auto 0; padding:26px 28px 60px; border-top:
           <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px; white-space:nowrap">구/군</th>
           <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">상호</th>
           <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">카테고리</th>
-          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">주소 (지번)</th>
+          <th style="text-align:left; color:var(--muted); font-size:12px; letter-spacing:.06em; border-bottom:2px solid var(--line); padding:10px 12px">주소</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -649,6 +643,7 @@ const LOCALS = [
   ["남구","용호동할매팥빙수단팥죽 본점","빙수","용호동 148-2 1층"],
   ["남구","김유순대구뽈찜","해물·생선요리","대연동 291-2"],
   ["사하구","오두리할매셋째딸연탄쭈꾸미","주꾸미요리","괴정동 382-8"],
+  ["영도구","모모스커피 로스터리&커피바","카페·디저트","봉래나루로 160"],
   ["수영구","모모스커피 도모헌점","카페·디저트","남천동 59-6 도모헌 본관 1층"],
   ["수영구","진미언양불고기","육류·고기요리","광안동 203-21"],
   ["수영구","초필살돼지구이 광안직영점","육류·고기요리","광안동 198-5 1층"],
@@ -660,9 +655,13 @@ const LOCALS = [
   ["해운대구","해운대암소갈비집 (미쉐린 셀렉션)","육류·고기요리","중동 1225-1"],
   ["해운대구","양산왕돼지국밥","국밥","재송동 1118-7"],
   ["해운대구","거대숯불구이","소고기구이","중동 1777-2"],
+  ["해운대구","모모스커피 마린시티점","카페·디저트","마린시티1로 91, 101동 1층"],
+  ["해운대구","옵스 마린시티점","베이커리·디저트","마린시티1로 167 현대카멜리아 1층"],
   ["연제구","서울왕돈까스","돈가스","거제동 1-8"],
   ["북구","금용만두","중식당","구포동 1060-268 (구포우체국 옆)"],
   ["금정구","금죽헌 금정산성점","육류·고기요리","금성동 928-2 1층"],
+  ["금정구","금정사계","카페·디저트","금샘로 379"],
+  ["금정구","모모스커피 본점","카페·디저트","오시게로 20 (부곡동)"],
   ["기장군","풍원장시골밥상집","한식","기장읍 시랑리 108-7"],
   ["기장군","연화리 전복죽 남풍","한식","기장읍 연화리 152-1"],
   ["기장군","피크스퀘어","카페·디저트","기장읍 죽성리 411"],
@@ -672,10 +671,11 @@ const LOCALS = [
   ["기장군","전산가든","아귀찜·해물찜","일광읍 학리 181-2"],
   ["기장군","일광당","찐빵","일광읍 이천리 836-5"],
   ["기장군","시골의맛","칼국수·만두","일광읍 이천리 833-2 1층"],
-  ["기장군","탐복 본점","한식","일광읍 동백리 285-14"]
+  ["기장군","탐복 본점","한식","일광읍 동백리 285-14"],
+  ["기장군","칠암사계","카페·디저트","일광읍 칠암1길 7-10"]
 ];
 function catGroup(c){
-  if (/카페|빙수|찐빵/.test(c)) return "카페·디저트";
+  if (/카페|빙수|찐빵|베이커리|디저트/.test(c)) return "카페·디저트";
   if (/중식|딤섬/.test(c)) return "중식";
   if (/회|해물|주꾸미|장어|아귀/.test(c)) return "해산물";
   if (/곱창|육류|소고기|족발|불고기/.test(c)) return "고기·구이";
@@ -754,5 +754,4 @@ const io = new IntersectionObserver(es=>{
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 </script>
 
-</body>
-</html>
+</body></html>
